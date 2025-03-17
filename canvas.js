@@ -1,9 +1,11 @@
-canvasURL = "https://canvas.exeter.edu/api/v1/courses?per_page=100";
+//chrome.exe --disable-web-security --user-data-dir=C:\my-chrome-data\data
+
+canvasURL = "https://canvas.instructure.com/api/v1/courses";
 
 const options = {
     method: "GET",
     headers: {
-        Authorization: "Bearer 1770~FKkkZ4TtRv22MNGWzmF9txJtCEKDeM7mT3vRKcTCEanPF4GVJraaNBrvahyeRH9W1770~FKkkZ4TtRv22MNGWzmF9txJtCEKDeM7mT3vRKcTCEanPF4GVJraaNBrvahyeRH9W",
+        // Authorization: "Bearer 1770~FKkkZ4TtRv22MNGWzmF9txJtCEKDeM7mT3vRKcTCEanPF4GVJraaNBrvahyeRH9W",
     },
 }
 
@@ -16,7 +18,7 @@ fetch(canvasURL, options)
 
 function getCurrentCourses(response) {
     const filteredResponse = response.filter(course => !course.access_restricted_by_date);
-    // console.log(JSON.stringify(filteredResponse));
+    console.log(JSON.stringify(filteredResponse));
     return filteredResponse;
 }
 
@@ -24,10 +26,10 @@ function getCourseLinks(response) {
     for (let i = 0; i < response.length; i++) {
         let id = (response[i].id);
         let courseName = (response[i].name);
-        let webString = 'https://canvas.exeter.edu/api/v1/courses/' + id + '/assignments?per_page=100';
-        let consoleString = courseName + ': ' + 'https://canvas.exeter.edu/courses/' + id;
+        let webString = 'https://canvas.instructure.com/api/v1/courses/' + id + '/assignments?per_page=100';
+        let consoleString = courseName + ': ' + 'https://canvas.instructure.com/courses/' + id;
         getCourseInfo(webString, courseName);
-        // console.log(consoleString);
+        console.log(consoleString);
     }
     return response;
 }
