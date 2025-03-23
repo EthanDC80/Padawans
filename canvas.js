@@ -1,65 +1,51 @@
-//chrome.exe --disable-web-security --user-data-dir=C:\my-chrome-data\data
+const courseDropdown = document.getElementById('course');
+const assignmentDropdown = document.getElementById('assignment');
+const tokenInput = document.getElementById('token');
+const startButton = document.getElementById('start');
 
-canvasURL = "https://canvas.instructure.com/api/v1/courses";
+let options;
 
-const options = {
-    method: "GET",
-    headers: {
-        // Authorization: "Bearer 1770~FKkkZ4TtRv22MNGWzmF9txJtCEKDeM7mT3vRKcTCEanPF4GVJraaNBrvahyeRH9W",
-    },
+tokenInput.addEventListener('input', () => {
+  const token = tokenInput.value;
+  options = {
+    method: 'GET',
+    headers: { Authorization: `Bearer ${token}` },
+  };
+  fetchCourses();
+});
+
+function fetchCourses() {
+  fetch('https://canvas.instructure.com/api/v1/courses', options)
+    .then((response) => response.json())
+    .then((courses) => {
+      const filteredCourses = courses.filter((course) => !course.access_restricted_by_date);
+      courseDropdown.innerHTML = '<option value="">Select a Course</option>';
+      filteredCourses.forEach((course) => {
+        const option = document.createElement('option');
+        option.value = course.id;
+        option.textContent = course.name;
+        courseDropdown.appendChild(option);
+      });
+      courseDropdown.disabled = false;
+    })
+    .catch((error) => console.error('Error fetching courses:', error));
 }
 
-let numCourses;
+courseDropdown.addEventListener('change', () => {
+  const courseId = courseDropdown.value;
+  if (!courseId) return;
 
-fetch(canvasURL, options)
-    .then( response => response.json())
-    .then( response => getCurrentCourses(response))
-    .then( response => getCourseLinks(response))
-
-function getCurrentCourses(response) {
-    const filteredResponse = response.filter(course => !course.access_restricted_by_date);
-    console.log(JSON.stringify(filteredResponse));
-    return filteredResponse;
-}
-
-function getCourseLinks(response) {
-    for (let i = 0; i < response.length; i++) {
-        let id = (response[i].id);
-        let courseName = (response[i].name);
-        let webString = 'https://canvas.instructure.com/api/v1/courses/' + id + '/assignments?per_page=100';
-        let consoleString = courseName + ': ' + 'https://canvas.instructure.com/courses/' + id;
-        getCourseInfo(webString, courseName);
-        console.log(consoleString);
-    }
-    return response;
-}
-
-function getCourseInfo (webString, course_name) {
-    fetch(webString, options) 
-        .then( response => response.json())
-        .then( response => getAssignmentInfo(response, course_name))
-        // .then( response => console.log(JSON.stringify(response)))
-}
-
-// Gets Info for assignments such as subject, description, due date, and the course name
-function getAssignmentInfo (response, course_name) {
-
-    for (let i = 0; i < response.length; i++) {
-        let subject = (course_name);
-        let title = (response[i].name);
-        if(subject == 'undefined')
-            continue;
-        let desc = removeHTML(response[i].description);
-        if(desc == 'undefined')
-            desc = '';
-        let dueDate = (response[i].due_at);
-        console.log(subject + '\n' + title + '\n' + desc + '\n' + dueDate + '\n');
-    }
-    return response;
-}
-
-// Returns certain HTML tags and ornaments
-function removeHTML (HTMLstr){
-    HTMLstr = HTMLstr.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').replace(/&quot;/g, '\"').replace(/&apos;/g, '\''); // Removes tags such as <p> and </p>
-    return HTMLstr;
-}
+  fetch(`https://canvas.instructure.com/api/v1/courses/${courseId}/assignments`, options)
+    .then((response) => response.json())
+    .then((assignments) => {
+      assignmentDropdown.innerHTML = '<option value="">Select an Assignment</option>';
+      assignments.forEach((assignment) => {
+        const option = document.createElement('option');
+        option.value = assignment.id;
+        option.textContent = assignment.name;
+        assignmentDropdown.appendChild(option);
+      });
+      assignmentDropdown.disabled = false;
+    })
+    .catch((error) => console.error('Error fetching assignments:', error));
+});
