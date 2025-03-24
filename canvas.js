@@ -21,6 +21,7 @@ function fetchCourses() {
       const filteredCourses = courses.filter((course) => !course.access_restricted_by_date);
       courseDropdown.innerHTML = '<option value="">Select a Course</option>';
       filteredCourses.forEach((course) => {
+        console.log(course);
         const option = document.createElement('option');
         option.value = course.id;
         option.textContent = course.name;
