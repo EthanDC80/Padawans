@@ -15,7 +15,7 @@ tokenInput.addEventListener('input', () => {
 });
 
 function fetchCourses() {
-  fetch('https://canvas.instructure.com/api/v1/courses', options)
+  fetch('https://canvas.instructure.com/api/v1/courses?per_page=100', options)
     .then((response) => response.json())
     .then((courses) => {
       const filteredCourses = courses.filter((course) => !course.access_restricted_by_date);
@@ -35,7 +35,7 @@ courseDropdown.addEventListener('change', () => {
   const courseId = courseDropdown.value;
   if (!courseId) return;
 
-  fetch(`https://canvas.instructure.com/api/v1/courses/${courseId}/assignments`, options)
+  fetch(`https://canvas.instructure.com/api/v1/courses/${courseId}/assignments?per_page=100`, options)
     .then((response) => response.json())
     .then((assignments) => {
       assignmentDropdown.innerHTML = '<option value="">Select an Assignment</option>';
