@@ -1,12 +1,12 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f9f9f9;
+  background-color: #00274C;
   margin: 40px;
   color: #333;
 }
 
 h1 {
-  color: #007bff;
+  color: #FFCB05;
 }
 
 label {
@@ -26,7 +26,7 @@ input, select, button {
 }
 
 button {
-  background-color: #007bff;
+  background-color: #ffcb05;
   color: white;
   font-size: 16px;
   cursor: pointer;
