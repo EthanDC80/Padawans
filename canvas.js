@@ -8,8 +8,11 @@ let options;
 tokenInput.addEventListener('input', () => {
   const token = tokenInput.value;
   options = {
+    mode: 'cors',
     method: 'GET',
-    headers: { Authorization: `Bearer ${token}` },
+    headers: { Authorization: `Bearer ${token}` ,
+              'Access-Control-Request-Headers': 'https://ethandc80.github.io',
+    },
   };
   fetchCourses();
 });

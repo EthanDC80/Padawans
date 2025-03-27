@@ -3,6 +3,7 @@
 const timeInput = document.getElementById('time');
 const emailInput = document.getElementById('email');
 
+
 startButton.addEventListener('click', () => {
   const assignmentId = assignmentDropdown.value;
   const minutes = parseInt(timeInput.value);
