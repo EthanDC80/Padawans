@@ -6,10 +6,11 @@ body {
 }
 
 h1 {
-  color: #FFCB05;
+  color: #ffcb05;
 }
 
 label {
+  color: #ffcb05;
   font-weight: bold;
   display: block;
   margin-top: 15px;
