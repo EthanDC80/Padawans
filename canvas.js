@@ -11,7 +11,7 @@ tokenInput.addEventListener('input', () => {
     mode: 'cors',
     method: 'GET',
     headers: { Authorization: `Bearer ${token}` ,
-              'Access-Control-Request-Headers': 'https://ethandc80.github.io',
+              'Access-Control-Allow-Origin': 'https://ethandc80.github.io',
     },
   };
   fetchCourses();
