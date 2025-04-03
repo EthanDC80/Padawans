@@ -21,7 +21,7 @@ input, select, button {
   padding: 10px;
   margin-top: 8px;
   margin-bottom: 20px;
-  border: 1px solid #FFCB05;
+  border: 2px solid #FFCB05;
   border-radius: 8px;
   box-sizing: border-box;
 }
