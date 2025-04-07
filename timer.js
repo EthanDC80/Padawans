@@ -3,12 +3,13 @@
 const timeInput = document.getElementById('time');
 const emailInput = document.getElementById('email');
 
+const countdownDisplay = document.getElementById('countdown');
 
 startButton.addEventListener('click', () => {
   const assignmentId = assignmentDropdown.value;
   const minutes = parseInt(timeInput.value);
   const email = emailInput.value;
-  
+
   if (!assignmentId || isNaN(minutes) || !email) {
     alert('Please fill out all fields.');
     return;
@@ -18,14 +19,21 @@ startButton.addEventListener('click', () => {
 
   const checkTimer = setInterval(() => {
     const remainingTime = endTime - Date.now();
+
     if (remainingTime <= 0) {
       clearInterval(checkTimer);
+      countdownDisplay.textContent = 'Time Remaining: 00:00';
       checkSubmission(assignmentId, email);
+    } else {
+      const minutesLeft = Math.floor(remainingTime / 60000);
+      const secondsLeft = Math.floor((remainingTime % 60000) / 1000);
+      countdownDisplay.textContent = `Time Remaining: ${String(minutesLeft).padStart(2, '0')}:${String(secondsLeft).padStart(2, '0')}`;
     }
   }, 1000);
 
   alert(`Timer set for ${minutes} minutes.`);
 });
+
 
 function checkSubmission(assignmentId, email) {
   fetch(`https://canvas.instructure.com/api/v1/courses/${courseDropdown.value}/assignments/${assignmentId}/submissions/self`, options)
