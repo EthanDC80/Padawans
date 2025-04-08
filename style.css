@@ -9,6 +9,12 @@ h1 {
   color: #ffcb05;
 }
 
+h2 {
+  color: #ffcb05;
+  font-size: 1em;
+  margin-bottom: 20px;
+}
+
 label {
   color: #ffcb05;
   font-weight: bold;
@@ -53,7 +59,7 @@ input[type="number"]::-webkit-outer-spin-button {
   }
 } 
 
-.container {
+.timer {
   background-color: #001f3f;
   padding: 40px;
   border-radius: 16px;
@@ -61,18 +67,24 @@ input[type="number"]::-webkit-outer-spin-button {
   width: 100%;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
   margin-left: auto;
-  margin-right: 10%;
+  margin-right: 2.5%;
+  float: right;
+}
+
+.input {
+  float: left;
 }
 
 #countdown {
-  font-size: 1.5em;
+  font-size: 4em;
   font-weight: bold;
   color: #ffcb05;
   background-color: #001f3f;
   padding: 40px 16px;
   border-radius: 8px;
-  text-align: right;
+  text-align: center;
   width: 100%;
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
 }

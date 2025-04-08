@@ -2,6 +2,7 @@
 
 const timeInput = document.getElementById('time');
 const emailInput = document.getElementById('email');
+const messageInput = document.getElementById('message');
 
 const countdownDisplay = document.getElementById('countdown');
 
@@ -9,8 +10,10 @@ startButton.addEventListener('click', () => {
   const assignmentId = assignmentDropdown.value;
   const minutes = parseInt(timeInput.value);
   const email = emailInput.value;
+  const message = messageInput.value; // Get the message from the textarea
 
-  if (!assignmentId || isNaN(minutes) || !email) {
+  if (!assignmentId || isNaN(minutes) || !email || !message) {
+    // Check if all fields are filled out
     alert('Please fill out all fields.');
     return;
   }
@@ -22,12 +25,12 @@ startButton.addEventListener('click', () => {
 
     if (remainingTime <= 0) {
       clearInterval(checkTimer);
-      countdownDisplay.textContent = 'Time Remaining: 00:00';
-      checkSubmission(assignmentId, email);
+      countdownDisplay.textContent = '00:00';
+      checkSubmission(assignmentId, email, message);
     } else {
       const minutesLeft = Math.floor(remainingTime / 60000);
       const secondsLeft = Math.floor((remainingTime % 60000) / 1000);
-      countdownDisplay.textContent = `Time Remaining: ${String(minutesLeft).padStart(2, '0')}:${String(secondsLeft).padStart(2, '0')}`;
+      countdownDisplay.textContent = `${String(minutesLeft).padStart(2, '0')}:${String(secondsLeft).padStart(2, '0')}`;
     }
   }, 1000);
 
@@ -35,7 +38,7 @@ startButton.addEventListener('click', () => {
 });
 
 
-function checkSubmission(assignmentId, email) {
+function checkSubmission(assignmentId, email, message) {
   fetch(`https://canvas.instructure.com/api/v1/courses/${courseDropdown.value}/assignments/${assignmentId}/submissions/self`, options)
     .then(response => response.json())
     .then(submission => {
@@ -43,7 +46,7 @@ function checkSubmission(assignmentId, email) {
         getUserName().then(name => {
           console.log('Fetched name:', name);
           if (name) {
-            sendEmailNotification(email, name); // Use it here
+            sendEmailNotification(email, name, message); // Use it here
           }
         });
       } else {
@@ -65,11 +68,12 @@ function checkSubmission(assignmentId, email) {
 //   .catch(error => console.error('Error sending email:', error));
 // }
 
-function sendEmailNotification(email, name) {
+function sendEmailNotification(email, name, message) {
 
   var templateParams = {
     name: name,
     email: email,
+    message: message,
   };
   emailjs.send('default_service', 'template_a87gs8q', templateParams).then(
     (response) => {

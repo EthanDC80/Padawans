@@ -10,9 +10,7 @@ tokenInput.addEventListener('input', () => {
   options = {
     mode: 'cors',
     method: 'GET',
-    headers: { Authorization: `Bearer ${token}` ,
-              'Access-Control-Allow-Origin': 'https://ethandc80.github.io',
-    },
+    headers: { Authorization: `Bearer ${token}` },
   };
   fetchCourses();
 });
