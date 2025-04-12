@@ -8,7 +8,7 @@ const countdownDisplay = document.getElementById('countdown');
 
 startButton.addEventListener('click', () => {
   const assignmentId = assignmentDropdown.value;
-  const minutes = parseInt(timeInput.value);
+  const minutes = timeInput.value;
   const email = emailInput.value;
   const message = messageInput.value; // Get the message from the textarea
 
